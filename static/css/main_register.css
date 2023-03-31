@@ -1,0 +1,92 @@
+body {
+    margin: 0;
+}
+
+.main-login {
+    width: 100vw;
+    height: 100vh;
+    background: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.title {
+    color: #000000;
+    font-size: 30pt;
+}
+
+.card-login {
+    width: 15%;
+    height: 80%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 30px 35px;
+    background: #8C7F7F;
+    border-radius: 20px;
+    box-shadow: 0px 10px 40px #00000056;
+}
+
+.card-login > h1 {
+    color: #000000;
+    font-weight: 800;
+    height: 10%;
+    margin: 0;
+}
+
+.textfield {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    margin: 1px 0px;
+}
+
+.textfield > input {
+    width: 100%;
+    height: 20%;
+    border: none;
+    border-radius: 10px;
+    padding: 15px;
+    background: #fff;
+    font-size: 12pt;
+    outline: none;
+    box-sizing: border-box;
+}
+
+.textfield > label {
+    color: #fff;
+    margin-bottom: 10px;
+
+}
+
+.textfield > input::placeholder {
+    color: #f0ffff94;
+}
+
+.btn-login {
+    width: 50%;
+    padding: 10px 0px;
+    margin: 25px;
+    margin-left: 10px;
+    border: none;
+    border-radius: 25px;
+    color: #fff;
+    background: #766B6B;
+    cursor: pointer;
+    box-shadow: 0px 10px 40px -12px #00000056;
+}
+
+.btn-back {
+    width: 50%;
+    padding: 10px 0px;
+    border: none;
+    border-radius: 25px;
+    color: #fff;
+    background: #766B6B;
+    cursor: pointer;
+    box-shadow: 0px 10px 40px -12px #00000056;
+}
+

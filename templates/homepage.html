@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main_login.css')}}">
+    <title>Schedule</title>
+</head>
+<body>
+    <div class="main-login">
+        <div class ="card-login">
+            <form action="/login" method="POST">
+            <h1 class="title">Schedule</h1>
+                <div class="textfield">
+                    <label for="usuario">Email</label>
+                    <input type="text" name="usuario" placeholder="Usuário">
+                </div>
+                <div class="textfield">
+                    <label for="senha">Senha</label>
+                    <input type="password" name="senha" placeholder="Senha">
+                </div>
+                <input class="btn-login" type="submit" name="Login" value="Login">
+                
+            </form>
+            <a href="/register"><input class="btn-register" value="Register"></a>
+        </div>
+    </div>
+</body>
+</html>

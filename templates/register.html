@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main_register.css')}}">
+    <title>Schedule</title>
+</head>
+<body>
+    <div class="main-login">
+        <div class ="card-login">
+        <form action="/register" method="POST">
+            <h1 class="title">Register</h1>
+            <div class="textfield">
+                <label for="usuario">First Name</label>
+                <input type="text" name="first_name" placeholder="Usuário">
+            </div>
+            <div class="textfield">
+                <label for="usuario">Last Name</label>
+                <input type="text" name="last_name" placeholder="Usuário">
+            </div>
+            <div class="textfield">
+                <label for="usuario">Email</label>
+                <input type="text" name="email" placeholder="Usuário">
+            </div>
+            <div class="textfield">
+                <label for="senha">Senha</label>
+                <input type="password" name="senha" placeholder="Senha">
+            </div>
+            <div class="textfield">
+                <label for="senha">Confirmar Senha</label>
+                <input type="password" name="confirma_senha" placeholder="Senha">
+            </div>
+            <input class="btn-login" type="submit" name="Register" value="Register">
+            <a href="/">><input class="btn-back" value="back"></a>
+        </form>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MPS Flask REST API</title>
+</head>
+<body>
+    <h1>
+        Sheduled Page!
+    </h1>
+
+    {% for user in user %}
+    <h3>Nome do usuário: {{user["user_name"]}}</h3>
+    <h3>Email: {{user["user_email"]}}</h3>
+    <h3>Status Atual do Usuário: {{user["user_status"]}}</h3>
+    <h3>Data da Ultima Modificação Realizada: {{user["timestamp"]}}</h3>
+    <ul>
+        {% for event in event %}
+            {% if event["user_id"] == user["user_id"] %}
+                <li><strong>{{event["event_title"]}}</strong> - {{event["event_description"]}}</li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+    {% endfor %}
+</body>
+</html>
