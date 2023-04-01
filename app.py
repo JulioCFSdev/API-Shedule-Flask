@@ -6,6 +6,9 @@ import event as sheduled_event
 
 app = connexion.App(__name__, specification_dir="./")
 app.add_api("swagger.yml")
+app = Flask(__name__)
+app.config['SECRET_KEY'] = 'your_secret_key_hereAAAAAAAAAAAAASDWSDAWZXCSAWD'
+app.secret_key = "your_secret_key_hereAAAAAAAAAAAAASDWSDAWZXCSAWD"
 
 
 @app.route("/user")
@@ -24,17 +27,17 @@ def home():
 def login():
     msg = ""
     if request.method == "POST":
-        msg = msg + "Ei po"
         email, password = request.form["usuario"], request.form["senha"]
+        users = sheduled_user.read_all()
         with engine.connect() as conn:
-            connection = conn.connect("./DB/schedule.db")
-            msg = msg + "Vai Tu"
-            if user[3] == email and user[4] == password:
-                session["email"] = user[3]
-                session["password"] = user[4]
-                session["First_name"] = user[0]
-                session["Last_name"] = user[1]
-                return render_template("login.html")
+            for user in users:
+                if user["user_email"] == email and user["user_password"] == password:
+                    session["user_email"] = user["user_email"]
+                    session["user_password"] = user["user_password"]
+                    session["user_name"] = user["user_name"]
+                    session["user_id"] = user["user_id"]
+                    session["user_status"] = user["user_status"]
+                    return render_template("login.html")
         return render_template("homepage.html", msg=msg)
 
 
@@ -44,8 +47,28 @@ def perfill():
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
-    
-
+    msg = ""
+    if request.method == "POST":
+        first_name, email, password = request.form["first_name"], request.form["email"], request.form["senha"]
+        users = sheduled_user.read_all()
+        with engine.connect() as conn:
+            user_verification = sheduled_user.read_one(2)
+            for user in users:
+                if user_verification["user_email"] == email:
+                    return render_template("register.html")
+            
+            user_dict = {
+                    'user_email': email,
+                    'user_name': first_name,
+                    'user_password': password,
+                    'user_status': 0
+            }
+            create_user = sheduled_user.create(user_dict)
+            if(create_user):
+                return render_template("login.html")
+            else:
+                return render_template("register.html")
+            
     return render_template("register.html")
 
 
