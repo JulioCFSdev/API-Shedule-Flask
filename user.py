@@ -18,50 +18,70 @@ USER = load_users_from_db()
 
 
 def read_all():
-    return USER
-
+    with engine.connect() as conn:
+        sql = "select * from shedule_user"
+        user = conn.execute(text(sql))
+        user_list =  user.fetchall()
+        user_dict = []
+        for row in user_list:
+            e_dict = {
+                        'user_id': row[0],
+                        'user_email': row[1],
+                        'user_name': row[2],
+                        'user_password': row[3],
+                        'user_status': row[4]
+                    }
+            user_dict.append(e_dict)
+        return user_dict
 
 def create(user):
-    user_name = user.get("user_name", "")
+    user_id = user.get("user_id", "")
     user_email = user.get("user_email", "")
+    user_name = user.get("user_name", "")
     user_password = user.get("user_password", "")
     user_status = user.get("user_status", "")
-    sql = "INSERT INTO shedule_user (user_name, user_email, user_password, user_status) VALUES (%s, %s, %s, %s)"
-    values = (user_name, user_email, user_password, user_status)
 
+    sql = "insert into shedule_user (user_email, user_name, user_password, user_status) values ('{}', '{}', '{}', {})".format(user_email, user_name, user_password, user_status)
     with engine.connect() as conn:
-        user = conn.execute(sql,values)
-        conn.commit()
-        return user
+        users = conn.execute(text(sql))
+        if users:
+            return True
+        else:
+            return False
 
 
 def read_one(user_id):
-    USER = load_users_from_db()
-    if user_id in USER:
-        with engine.connect() as conn:
-            user = conn.execute('SELECT * FROM schedule_user WHERE user_id = %i', user_id)
-            conn.commit()
-        return user[user_id]
-    else:
-        abort(
-            404, f"Person with ID {user_id} not found"
-        )
+    with engine.connect() as conn:
+        sql = "select * from shedule_user where user_id = {}".format(user_id)
+        user = conn.execute(text(sql))
+        user_list = user.fetchone()
+        if user:
+            user_dict = {
+                    'user_id': user_list[0],
+                    'user_email': user_list[1],
+                    'user_name': user_list[2],
+                    'user_password': user_list[3],
+                    'user_status': user_list[4]
+            }
+
+            return user_dict
+        else:
+            abort(
+                404, f"Event with ID {user_id} not found"
+            )
 
 
 def update(user_id, user):
-    USER = load_users_from_db()
-    if user_id in USER:
+    USER = read_one(user_id)
+    if USER:
         user_name_up = user.get("user_name", "")
         user_email_up = user.get("user_email", "")
         user_password_up = user.get("user_password", "")
         user_status_up = user.get("user_status", "")
-        sql = "UPDATE shedule_user SET user_name = %s, user_email = %s, user_password = %s, user_status = %i WHERE user_id = %i;"
-        values = (user_name_up, user_email_up, user_password_up, user_status_up, user_id)
-
+        sql = "update shedule_user set user_name = '{}', user_email = '{}', user_password = '{}', user_status = {} where user_id = {};".format(user_name_up, user_email_up, user_password_up, user_status_up, user_id)
         with engine.connect() as conn:
-            result = conn.execute(sql, values)
-            conn.commit()
-        return result[user_id]
+            result = conn.execute(text(sql))
+            return result.rowcount
     else:
         abort(
             404,
@@ -70,18 +90,28 @@ def update(user_id, user):
 
 
 def delete(user_id):
-    USER = load_users_from_db()
-    if user_id in USER:
-        print(100)
+    verificad = read_one(user_id)
+    if verificad:
+        sql = 'delete from shedule_user where user_id = {}'.format(user_id)
         with engine.connect() as conn:
-            user = conn.execute('DELETE FROM shedule_user WHERE user_id = {id}'.format(id=user_id))
-            conn.commit()
-        del user[user_id]
-        return make_response(
-            f"{user_id} successfully deleted", 200
-        )
+            result = conn.execute(text(sql))
+            if result:
+                return True
+            else:
+                return False
     else:
         abort(
             404,
             f"Person with ID {user_id} not found"
         )
+
+
+user = {
+        "user_name": "adocica",
+        "user_email": "Meu amor",
+        "user_password": 0,
+        "user_status": 1,
+    }
+
+
+print(delete(1))
